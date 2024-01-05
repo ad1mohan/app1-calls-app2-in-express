@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const path = require('path');
 const AWSXRay = require('aws-xray-sdk');
 const app = express();
 const port = 3000; 
@@ -10,7 +11,10 @@ app.use(AWSXRay.express.openSegment('App1'));
 
 
 app.get('/', (req, res) => {
-    res.send('Hello, this is your app-1 website!');
+  const filePath = path.join(__dirname, 'public', 'index.html');
+
+  // Send the HTML file as the response
+  res.sendFile(filePath);
 });
 
 app.get('/app-2', async(req, res) => {
